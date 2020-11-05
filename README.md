@@ -1,4 +1,5 @@
 Project Scraper Inc
+Scraper Inc = Scraper Inclusive.
 
 The purpose of this project: Scraping the web for clear bits of data, to be stored and accesed later for generating reports about the history of that data evolution over time.
 
