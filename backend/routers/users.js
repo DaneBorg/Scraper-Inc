@@ -1,17 +1,18 @@
 const express = require('express')
 const usersController = require('../controllers/users')
-const { checkJwt } = require('../middleware')
+//const { checkJwt } = require('../middleware')
 const router = express.Router()
-const checkJWt = require('../middleware/index')
+//const checkJWt = require('../middleware/index')
 
-router.get('/', usersController.getAllUsers)
+//router.get('/', usersController.getAllUsers)
 
-router.get('/:id', usersController.getUserById)
+router.get('/:userId', usersController.getUserById)
 
-router.post('/', checkJWt.checkJwt, usersController.createUser)
+// add this after post route but before createUser (checkJWt.checkJwt,) no paranthesis 
+router.post('/', usersController.createUser)
 
-router.put('/:id', checkJWt.checkJwt, usersController.updateUserById)
+//router.put('/:id', checkJWt.checkJwt, usersController.updateUserById)
 
-router.delete('/:first_name', checkJWt.checkJwt, usersController.deleteUserByFirstName)
+//router.delete('/:first_name', checkJWt.checkJwt, usersController.deleteUserByFirstName)
 
 module.exports = router
