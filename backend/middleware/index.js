@@ -19,7 +19,7 @@ const checkJwt = jwt({
   algorithms: ['RS256']
 });
 
-module.exports = {
-  logger,
-  checkJwt
-}
+// module.exports = {
+//   logger,
+//   checkJwt
+// }

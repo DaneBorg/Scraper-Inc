@@ -1,62 +1,74 @@
-//const mysql = require('mysql')
 const mongoose = require('mongoose');
-const pool = require('../sql/connection');
-const { handleSQLError } = require('../sql/error');
+const User = require('../models/userModel')
 
-const getAllUsers = (req, res) => {
+//const { propfind } = require('../routers/auth');
+
+// const getAllUsers = (req, res) => {
   
-  pool.query("SELECT * FROM users", (err, rows) => {
-    if (err) return handleSQLError(res, err)
-    return res.json(rows);
-  })
-}
+//   pool.query("SELECT * FROM users", (err, rows) => {
+//     if (err) return handleSQLError(res, err)
+//     return res.json(rows);
+//   })
+// }
 
 const getUserById = (req, res) => {
-  let sql = "SELECT * FROM users WHERE id = ?"
-  sql = mysql.format(sql, [ req.params.id ])
+  const id = req.params.userId;
 
-  pool.query(sql, (err, rows) => {
-    if (err) return handleSQLError(res, err)
-    return res.json(rows);
+  User.findById(id)
+  .exec()
+  .then(doc => {
+    console.log("from Database: ", doc);
+    res.status(200).json(doc);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({error: err});
   })
 }
 
 const createUser = (req, res) => {
-  const { firstName, lastName } = req.body
-  let sql = "INSERT INTO users (first_name, last_name) VALUES (?, ?)"
-  sql = mysql.format(sql, [ firstName, lastName ])
 
-  pool.query(sql, (err, results) => {
-    if (err) return handleSQLError(res, err)
-    return res.json({ newId: results.insertId });
+  const user = new User({
+    _id: new mongoose.Types.ObjectId(),
+    userName: req.body.userName,
+    // password: req.body.password,
+    email: req.body.email,
+  });
+  user.save().then(result => {
+    console.log(result)
+  })
+  .catch(err => console.log(err));
+  res.status(201).json({
+    message:"Handling post request to /users",
+    createdUser: user
   })
 }
 
-const updateUserById = (req, res) => {
-  const { firstName, lastName } = req.body
-  let sql = "UPDATE users SET first_name = ?, last_name = ? WHERE id = ?"
-  sql = mysql.format(sql, [ firstName, lastName, req.params.id ])
+// const updateUserById = (req, res) => {
+//   const { firstName, lastName } = req.body
+//   let sql = "UPDATE users SET first_name = ?, last_name = ? WHERE id = ?"
+//   sql = mysql.format(sql, [ firstName, lastName, req.params.id ])
 
-  pool.query(sql, (err, results) => {
-    if (err) return handleSQLError(res, err)
-    return res.status(204).json();
-  })
-}
+//   pool.query(sql, (err, results) => {
+//     if (err) return handleSQLError(res, err)
+//     return res.status(204).json();
+//   })
+// }
 
-const deleteUserByFirstName = (req, res) => {
-  let sql = "DELETE FROM users WHERE first_name = ?"
-  sql = mysql.format(sql, [ req.params.first_name ])
+// const deleteUserByFirstName = (req, res) => {
+//   let sql = "DELETE FROM users WHERE first_name = ?"
+//   sql = mysql.format(sql, [ req.params.first_name ])
 
-  pool.query(sql, (err, results) => {
-    if (err) return handleSQLError(res, err)
-    return res.json({ message: `Deleted ${results.affectedRows} user(s)` });
-  })
-}
+//   pool.query(sql, (err, results) => {
+//     if (err) return handleSQLError(res, err)
+//     return res.json({ message: `Deleted ${results.affectedRows} user(s)` });
+//   })
+// }
 
 module.exports = {
-  getAllUsers,
+  //getAllUsers,
   getUserById,
   createUser,
-  updateUserById,
-  deleteUserByFirstName
+  //updateUserById,
+  //deleteUserByFirstName
 }

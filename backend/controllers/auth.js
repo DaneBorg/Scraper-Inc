@@ -40,7 +40,7 @@ const login = (req, res) => {
 
 }
 
-    module.exports = {
-        // signup,
-        login
-      }
+    // module.exports = {
+    //     // signup,
+    //     login
+    //   }
