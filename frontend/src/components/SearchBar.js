@@ -15,6 +15,7 @@ export default class SearchBar extends React.Component {
                     <div className="field">
                         <label>Search:</label>
                         <input type="text" placeholder="Specify your scrape location here:" value={this.state.term} onChange={(e) => this.setState({term: e.target.value})} />
+<button>Search</button>
                     </div>
                 </form>
             </div>
