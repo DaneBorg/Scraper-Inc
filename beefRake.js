@@ -31,13 +31,6 @@ const puppeteer = require('puppeteer');
     }
   };
 
-
-  //const searchedForPrice = await page.evaluate(() => Array.from(document.querySelectorAll('div.category-item ul>a>li')).map((product) => product.innerText));
-  //const searchedForPricePerUnit = await page.evaluate(() => Array.from(document.querySelectorAll('div.category-item ul>a li.category-item__pricePerUnit')).map((product) => product.textContent.replace(/(\r\n|\n|\r)/gm, "").trim()));
-  
-  
-  //console.log(searchedFor);
-  //console.log(searchedForPrice);
   console.log(prodPriceList(searchedFor, searchedForPrice));
 
   await browser.close();
